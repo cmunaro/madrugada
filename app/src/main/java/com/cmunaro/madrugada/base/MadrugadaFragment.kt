@@ -8,6 +8,7 @@ import androidx.viewbinding.ViewBinding
 
 open class MadrugadaViewModel : ViewModel()
 
+@Suppress("unused")
 abstract class MadrugadaFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
     abstract val viewModel: MadrugadaViewModel
 

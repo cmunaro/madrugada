@@ -10,6 +10,7 @@ import kotlin.reflect.jvm.jvmErasure
 class FragmentViewModelDelegate<T : MadrugadaViewModel> : ReadOnlyProperty<Fragment, T> {
     private var viewModel: T? = null
 
+    @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
         viewModel?.let { return it }
         val clazz: KClass<T> = property.getter.returnType.jvmErasure as KClass<T>
