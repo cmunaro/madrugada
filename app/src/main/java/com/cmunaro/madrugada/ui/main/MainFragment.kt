@@ -18,9 +18,15 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
             findNavController().navigate(direction)
         }
 
-        viewModel.observeState(viewLifecycleOwner) {
-            collectOnChangesOf(MainState::counter) {
-                Log.d("MainState", "$it")
+        viewModel {
+            matchPartialStateChange(MainState::counter) {
+                Log.d("MainState", "counter $it")
+            }
+            matchPartialStateChange(MainState::string) {
+                Log.d("MainState", "string $it")
+            }
+            matchPartialStateChange(MainState::counter, MainState::string) {
+                Log.d("MainState", "counter string $it")
             }
         }
     }

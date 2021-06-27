@@ -16,9 +16,19 @@ class MadrugadaStateFlow<S : MadrugadaState> private constructor(
     override var value: S
         get() = stateFlow.value
         set(value) {
-            lastState = value
+            lastState = this.value
             stateFlow.value = value
         }
+
+    override suspend fun emit(value: S) {
+        lastState = this.value
+        stateFlow.emit(value)
+    }
+
+    override fun tryEmit(value: S): Boolean {
+        lastState = this.value
+        return stateFlow.tryEmit(value)
+    }
 
     @Suppress("unused")
     suspend inline fun collect(crossinline action: suspend (value: S) -> Unit): Unit =
