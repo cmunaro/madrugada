@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
 
-class FragmentViewModelDelegate<T : MadrugadaViewModel> : ReadOnlyProperty<Fragment, T> {
+class FragmentViewModelDelegate<T : MadrugadaViewModel<*>> : ReadOnlyProperty<Fragment, T> {
     private var viewModel: T? = null
 
     @Suppress("UNCHECKED_CAST")

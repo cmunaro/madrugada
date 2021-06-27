@@ -1,6 +1,7 @@
 package com.cmunaro.madrugada.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.cmunaro.madrugada.R
@@ -15,6 +16,12 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
         binding.button.setOnClickListener {
             val direction = MainFragmentDirections.actionMainFragmentToPageOne()
             findNavController().navigate(direction)
+        }
+
+        viewModel.observeState(viewLifecycleOwner) {
+            collectOnChangesOf(MainState::counter) {
+                Log.d("MainState", "$it")
+            }
         }
     }
 }

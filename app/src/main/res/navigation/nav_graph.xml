@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/pageOne"
-        android:name="com.cmunaro.madrugada.ui.page_one.PageOne"
+        android:name="com.cmunaro.madrugada.ui.page_one.PageOneFragment"
         android:label="PageOne"
         tools:layout="@layout/page_one_fragment"/>
 </navigation>
