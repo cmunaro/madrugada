@@ -17,13 +17,19 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
 
         viewModel {
             patternMatchPartialStateChange(MainState::counter) {
-                Log.d("MainState", "match counter $it")
+                Log.d("MainState", "match $it")
             }
             patternMatchPartialStateChange(MainState::string) {
-                Log.d("MainState", "match string $it")
+                Log.d("MainState", "match $it")
             }
-            patternMatchPartialStateChange(MainState::counter, MainState::string) {
-                Log.d("MainState", "match counter string $it")
+            patternMatchStateChange(MainState::string) {
+                Log.d("MainState", "match whole state $it")
+            }
+            patternMatchPartialStateChange(
+                MainState::counter,
+                MainState::string
+            ) { counter, string ->
+                Log.d("MainState", "match $counter, $string")
             }
         }
     }

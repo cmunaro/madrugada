@@ -10,9 +10,9 @@ open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel()
     ) {
         MadrugadaStateFlowDSLImpl<S>()
             .apply(initializer)
-            .observers.forEach { (properties, action) ->
+            .matchersPartialState.forEach { matcher: Matcher<S> ->
                 viewModelScope.launch {
-                    state.collectOnChangesOf(properties = properties, action)
+                    state.collectOnChangesOf(matcher)
                 }
             }
     }

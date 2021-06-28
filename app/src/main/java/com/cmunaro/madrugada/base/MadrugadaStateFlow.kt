@@ -3,7 +3,6 @@ package com.cmunaro.madrugada.base
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlin.reflect.KProperty1
 
 @OptIn(InternalCoroutinesApi::class)
 class MadrugadaStateFlow<S : MadrugadaState> private constructor(
@@ -31,12 +30,18 @@ class MadrugadaStateFlow<S : MadrugadaState> private constructor(
 
 
     @Suppress("unused")
-    suspend fun collectOnChangesOf(vararg properties: KProperty1<S, *>, action: (S) -> Unit) {
+    suspend fun collectOnChangesOf(matcher: Matcher<S>) {
         stateFlow.collect { newState ->
-            val hasChanged = properties.all { property ->
+            val hasChanged = matcher.properties.all { property ->
                 property.get(lastState) != property.get(newState)
             }
-            if (hasChanged) action(newState)
+            if (hasChanged) {
+                matcher.action.invoke(
+                    if (!matcher.partialState) listOf(newState)
+                    else matcher.properties
+                        .map { property -> property.get(newState) }
+                )
+            }
         }
     }
 
