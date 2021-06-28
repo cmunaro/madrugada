@@ -1,7 +1,6 @@
 package com.cmunaro.madrugada.base
 
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlin.reflect.KProperty1
@@ -30,11 +29,6 @@ class MadrugadaStateFlow<S : MadrugadaState> private constructor(
         return stateFlow.tryEmit(value)
     }
 
-    @Suppress("unused")
-    suspend inline fun collect(crossinline action: suspend (value: S) -> Unit): Unit =
-        collect(object : FlowCollector<S> {
-            override suspend fun emit(value: S) = action(value)
-        })
 
     @Suppress("unused")
     suspend fun collectOnChangesOf(vararg properties: KProperty1<S, *>, action: (S) -> Unit) {
