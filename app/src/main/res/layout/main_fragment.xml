@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.cmunaro.madrugada.ui.main.MainViewModel" />
@@ -79,10 +80,22 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.randomizeAll()}"
             android:text="Randomize all"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fireEvent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/uuid" />
+
+        <Button
+            android:id="@+id/fireEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.fireEvent()}"
+            android:text="Fire event"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/randomizeAll" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

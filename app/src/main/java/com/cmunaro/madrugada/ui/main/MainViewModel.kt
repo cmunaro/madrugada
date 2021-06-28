@@ -13,7 +13,8 @@ import kotlin.random.Random
 
 data class MainState(
     val counter: Int,
-    val string: String
+    val string: String,
+    val event: Unit? = null
 ): MadrugadaState
 
 class MainViewModel : MadrugadaViewModel<MainState>(MainState(0, "UUID")) {
@@ -35,5 +36,9 @@ class MainViewModel : MadrugadaViewModel<MainState>(MainState(0, "UUID")) {
 
     fun reDeliver() {
         state.tryEmit(state.value)
+    }
+
+    fun fireEvent() = viewModelScope.launch {
+        state.emit(state.value.copy(event = Unit))
     }
 }

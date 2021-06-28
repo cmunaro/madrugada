@@ -4,9 +4,11 @@ import com.cmunaro.madrugada.base.MadrugadaState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlin.reflect.full.instanceParameter
+import kotlin.reflect.full.memberFunctions
 
 interface BaseMadrugadaStateFlow<S : MadrugadaState> {
-    val matchersPartialState: ArrayList<Matcher<S>>
+    val matchers: ArrayList<Matcher<S>>
 }
 
 @OptIn(InternalCoroutinesApi::class)
@@ -33,10 +35,8 @@ class MadrugadaStateFlow<S : MadrugadaState> private constructor(
         return stateFlow.tryEmit(value)
     }
 
-
-    @Suppress("unused")
-    suspend fun collectOnChangesOf(matcher: Matcher<S>) {
-        stateFlow.collect { newState ->
+    suspend fun runMatcherOnState(matcher: Matcher<S>) {
+        stateFlow.collect { newState: S ->
             val hasChanged = matcher.properties.all { property ->
                 property.get(lastState) != property.get(newState)
             }
@@ -46,6 +46,16 @@ class MadrugadaStateFlow<S : MadrugadaState> private constructor(
                     else matcher.properties
                         .map { property -> property.get(newState) }
                 )
+                if (matcher.nullifyAfterDeliver) {
+                    val copy = newState::class.memberFunctions.first { it.name == "copy" }
+                    val instanceParam = copy.instanceParameter!!
+                    val nullifyParameters = copy.parameters.filter { copyParameter ->
+                        matcher.properties.any { copyParameter.name == it.name }
+                    }.map { it to null }
+                    val copyParameter = mapOf(instanceParam to newState) + nullifyParameters
+                    val result = copy.callBy(copyParameter)
+                    stateFlow.emit(result as S)
+                }
             }
         }
     }

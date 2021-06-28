@@ -16,6 +16,9 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
         super.onCreate(savedInstanceState)
 
         viewModel {
+            patternMatchPartialStateConsuming(MainState::event) {
+                Log.d("MainState", "match fired event")
+            }
             patternMatchPartialStateChange(MainState::counter) {
                 Log.d("MainState", "match $it")
             }
