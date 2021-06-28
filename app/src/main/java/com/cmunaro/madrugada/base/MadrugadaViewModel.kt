@@ -2,6 +2,10 @@ package com.cmunaro.madrugada.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlow
+import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlowDSL
+import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlowDSLImpl
+import com.cmunaro.madrugada.base.pattern_matching.Matcher
 import kotlinx.coroutines.launch
 
 open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel() {

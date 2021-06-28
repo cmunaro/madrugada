@@ -1,8 +1,13 @@
-package com.cmunaro.madrugada.base
+package com.cmunaro.madrugada.base.pattern_matching
 
+import com.cmunaro.madrugada.base.MadrugadaState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+
+interface BaseMadrugadaStateFlow<S : MadrugadaState> {
+    val matchersPartialState: ArrayList<Matcher<S>>
+}
 
 @OptIn(InternalCoroutinesApi::class)
 class MadrugadaStateFlow<S : MadrugadaState> private constructor(

@@ -22,8 +22,8 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
             patternMatchPartialStateChange(MainState::string) {
                 Log.d("MainState", "match $it")
             }
-            patternMatchStateChange(MainState::string) {
-                Log.d("MainState", "match whole state $it")
+            patternMatchFullStateChange(MainState::string) {
+                Log.d("MainState", "match whole state from string $it")
             }
             patternMatchPartialStateChange(
                 MainState::counter,
