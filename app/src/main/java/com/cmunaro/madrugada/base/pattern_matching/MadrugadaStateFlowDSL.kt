@@ -8,6 +8,7 @@ import com.cmunaro.madrugada.base.pattern_matching.partial.PatternMatchPartialSt
 import com.cmunaro.madrugada.base.pattern_matching.partial.comsuming.PatternMatchPartialStateConsuming
 import com.cmunaro.madrugada.base.pattern_matching.partial.comsuming.PatternMatchPartialStateConsumingInterface
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlin.reflect.KProperty1
 
 @DslMarker
@@ -32,16 +33,10 @@ abstract class MadrugadaStateFlowDSL<S : MadrugadaState>(
 class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
     MadrugadaStateFlowDSL<S>(ArrayList()) {
 
-    class Builder<S: MadrugadaState> {
+    class Builder<S : MadrugadaState> {
         private lateinit var viewModelScope: CoroutineScope
         private lateinit var initializer: MadrugadaStateFlowDSL<S>.() -> Unit
         private lateinit var state: MadrugadaStateFlow<S>
-        private var disposableStateUpdateOnPatterMatch = false
-
-        fun withDisposableStateUpdateOnPatterMatch(value: Boolean): Builder<S> {
-            disposableStateUpdateOnPatterMatch = value
-            return this
-        }
 
         fun withViewModelScope(viewModelScope: CoroutineScope): Builder<S> {
             this.viewModelScope = viewModelScope
@@ -58,6 +53,14 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             return this
         }
 
-        fun build() = MadrugadaStateFlowDSLImpl<S>()
+        fun build() {
+            MadrugadaStateFlowDSLImpl<S>()
+                .apply(initializer)
+                .matchers.forEach { matcher: Matcher<S> ->
+                    viewModelScope.launch {
+                        state.runMatcherOnState(matcher)
+                    }
+                }
+        }
     }
 }
