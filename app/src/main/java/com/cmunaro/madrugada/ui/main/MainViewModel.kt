@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.random.Random
 
@@ -22,23 +21,13 @@ class MainViewModel : MadrugadaViewModel<MainState>(MainState(0, "UUID")) {
     val counter: StateFlow<String> = state.map { it.counter.toString() }
         .stateIn(viewModelScope, SharingStarted.Lazily, state.value.counter.toString())
 
-    fun increment() = viewModelScope.launch {
-        state.emit(state.value.copy(counter = state.value.counter + 1))
-    }
+    fun increment() = setState { copy(counter = counter + 1) }
 
-    fun randomizeString() = viewModelScope.launch {
-        state.emit(state.value.copy(string = UUID.randomUUID().toString()))
-    }
+    fun randomizeString() = setState { copy(string = UUID.randomUUID().toString()) }
 
-    fun randomizeAll() = viewModelScope.launch {
-        state.emit(MainState(Random.nextInt(), UUID.randomUUID().toString()))
-    }
+    fun randomizeAll() = setState { MainState(Random.nextInt(), UUID.randomUUID().toString()) }
 
-    fun reDeliver() {
-        state.tryEmit(state.value)
-    }
+    fun reDeliver() = state.tryEmit(state.value)
 
-    fun fireEvent() = viewModelScope.launch {
-        state.emit(state.value.copy(event = Unit))
-    }
+    fun fireEvent() = setState { state.value.copy(event = Unit) }
 }

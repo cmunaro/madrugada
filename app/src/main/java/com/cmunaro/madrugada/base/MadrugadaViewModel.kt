@@ -18,4 +18,10 @@ open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel()
             .withState(state)
             .build()
     }
+
+    fun setState(reducer: S.() -> S) {
+        state.tryEmit(
+            state.value.reducer()
+        )
+    }
 }
