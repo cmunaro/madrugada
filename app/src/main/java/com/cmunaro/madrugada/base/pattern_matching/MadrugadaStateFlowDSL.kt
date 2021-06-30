@@ -8,7 +8,6 @@ import com.cmunaro.madrugada.base.pattern_matching.partial.PatternMatchPartialSt
 import com.cmunaro.madrugada.base.pattern_matching.partial.comsuming.PatternMatchPartialStateConsuming
 import com.cmunaro.madrugada.base.pattern_matching.partial.comsuming.PatternMatchPartialStateConsumingInterface
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import kotlin.reflect.KProperty1
 
 @DslMarker
@@ -32,19 +31,33 @@ abstract class MadrugadaStateFlowDSL<S : MadrugadaState>(
 
 class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
     MadrugadaStateFlowDSL<S>(ArrayList()) {
-    companion object {
-        fun <S : MadrugadaState> get(
-            viewModelScope: CoroutineScope,
-            initializer: MadrugadaStateFlowDSL<S>.() -> Unit,
-            state: MadrugadaStateFlow<S>
-        ) {
-            MadrugadaStateFlowDSLImpl<S>()
-                .apply(initializer)
-                .matchers.forEach { matcher: Matcher<S> ->
-                    viewModelScope.launch {
-                        state.runMatcherOnState(matcher)
-                    }
-                }
+
+    class Builder<S: MadrugadaState> {
+        private lateinit var viewModelScope: CoroutineScope
+        private lateinit var initializer: MadrugadaStateFlowDSL<S>.() -> Unit
+        private lateinit var state: MadrugadaStateFlow<S>
+        private var disposableStateUpdateOnPatterMatch = false
+
+        fun withDisposableStateUpdateOnPatterMatch(value: Boolean): Builder<S> {
+            disposableStateUpdateOnPatterMatch = value
+            return this
         }
+
+        fun withViewModelScope(viewModelScope: CoroutineScope): Builder<S> {
+            this.viewModelScope = viewModelScope
+            return this
+        }
+
+        fun withInitializer(initializer: MadrugadaStateFlowDSL<S>.() -> Unit): Builder<S> {
+            this.initializer = initializer
+            return this
+        }
+
+        fun withState(state: MadrugadaStateFlow<S>): Builder<S> {
+            this.state = state
+            return this
+        }
+
+        fun build() = MadrugadaStateFlowDSLImpl<S>()
     }
 }
