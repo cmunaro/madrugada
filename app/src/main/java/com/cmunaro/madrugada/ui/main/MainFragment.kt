@@ -3,10 +3,12 @@ package com.cmunaro.madrugada.ui.main
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cmunaro.madrugada.R
 import com.cmunaro.madrugada.base.MadrugadaFragment
 import com.cmunaro.madrugada.databinding.MainFragmentBinding
+import kotlinx.coroutines.flow.collect
 
 class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
     override val viewModel: MainViewModel by viewModel()
@@ -16,7 +18,7 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
         super.onCreate(savedInstanceState)
 
         viewModel {
-            patternMatchPartialStateConsuming(MainState::event) {
+            patternMatchPartialStateEvent(MainState::event) {
                 Log.d("MainState", "match fired event")
             }
             patternMatchPartialStateChange(MainState::counter) {
@@ -33,6 +35,12 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
                 MainState::string
             ) { counter, string ->
                 Log.d("MainState", "match $counter, $string")
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.state.collect {
+                Log.d("MainState", "Collected")
             }
         }
     }

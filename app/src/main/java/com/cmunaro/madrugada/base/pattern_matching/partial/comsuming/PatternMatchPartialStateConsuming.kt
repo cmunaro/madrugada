@@ -11,7 +11,7 @@ class PatternMatchPartialStateConsuming<S : MadrugadaState>(
     override val matchers: ArrayList<Matcher<S>>
 ) : PatternMatchPartialStateConsumingInterface<S> {
 
-    override fun <T> patternMatchPartialStateConsuming(
+    override fun <T> patternMatchPartialStateEvent(
         property: KProperty1<S, T>,
         action: (T) -> Unit
     ) {
@@ -25,7 +25,7 @@ class PatternMatchPartialStateConsuming<S : MadrugadaState>(
         )
     }
 
-    override fun <T1, T2> patternMatchPartialStateConsuming(
+    override fun <T1, T2> patternMatchPartialStateEvent(
         property1: KProperty1<S, T1>,
         property2: KProperty1<S, T2>,
         action: (T1, T2) -> Unit
@@ -40,7 +40,7 @@ class PatternMatchPartialStateConsuming<S : MadrugadaState>(
         )
     }
 
-    override fun <T1, T2, T3> patternMatchPartialStateConsuming(
+    override fun <T1, T2, T3> patternMatchPartialStateEvent(
         property1: KProperty1<S, T1>,
         property2: KProperty1<S, T2>,
         property3: KProperty1<S, T3>,
