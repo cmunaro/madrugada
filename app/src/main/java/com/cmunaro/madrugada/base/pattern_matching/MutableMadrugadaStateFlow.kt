@@ -3,6 +3,7 @@ package com.cmunaro.madrugada.base.pattern_matching
 import com.cmunaro.madrugada.base.MadrugadaState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlin.reflect.full.instanceParameter
 import kotlin.reflect.full.memberFunctions
@@ -11,11 +12,13 @@ interface BaseMadrugadaStateFlow<S : MadrugadaState> {
     val matchers: ArrayList<Matcher<S>>
 }
 
+interface MadrugadaStateFlow<S: MadrugadaState>: StateFlow<S>
+
 @OptIn(InternalCoroutinesApi::class)
-class MadrugadaStateFlow<S : MadrugadaState> private constructor(
+class MutableMadrugadaStateFlow<S : MadrugadaState> private constructor(
     private val initialState: S,
     private val stateFlow: MutableStateFlow<S> = MutableStateFlow(initialState)
-) : MutableStateFlow<S> by stateFlow {
+) : MutableStateFlow<S> by stateFlow, MadrugadaStateFlow<S> {
     private var lastState: S = initialState
 
     override var value: S
@@ -61,6 +64,6 @@ class MadrugadaStateFlow<S : MadrugadaState> private constructor(
     }
 
     companion object {
-        fun <S : MadrugadaState> init(initialState: S) = MadrugadaStateFlow(initialState)
+        fun <S : MadrugadaState> init(initialState: S) = MutableMadrugadaStateFlow(initialState)
     }
 }

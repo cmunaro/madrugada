@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlow
 import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlowDSL
 import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlowDSLImpl
+import com.cmunaro.madrugada.base.pattern_matching.MutableMadrugadaStateFlow
 
 open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel() {
-    open val state: MadrugadaStateFlow<S> = MadrugadaStateFlow.init(initialState)
+    private val _state: MutableMadrugadaStateFlow<S> = MutableMadrugadaStateFlow.init(initialState)
+    val state: MadrugadaStateFlow<S> = _state
 
     operator fun invoke(
         initializer: MadrugadaStateFlowDSL<S>.() -> Unit
@@ -15,13 +17,13 @@ open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel()
         MadrugadaStateFlowDSLImpl.Builder<S>()
             .withViewModelScope(viewModelScope)
             .withInitializer(initializer)
-            .withState(state)
+            .withState(_state)
             .build()
     }
 
     fun setState(reducer: S.() -> S) {
-        state.tryEmit(
-            state.value.reducer()
+        _state.tryEmit(
+            _state.value.reducer()
         )
     }
 }

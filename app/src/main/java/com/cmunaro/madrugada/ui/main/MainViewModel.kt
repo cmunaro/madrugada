@@ -27,7 +27,7 @@ class MainViewModel : MadrugadaViewModel<MainState>(MainState(0, "UUID")) {
 
     fun randomizeAll() = setState { MainState(Random.nextInt(), UUID.randomUUID().toString()) }
 
-    fun reDeliver() = state.tryEmit(state.value)
+    fun reDeliver() = setState { copy() }
 
     fun fireEvent() = setState { state.value.copy(event = Unit) }
 }

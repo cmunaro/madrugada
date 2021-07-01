@@ -36,7 +36,7 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
     class Builder<S : MadrugadaState> {
         private lateinit var viewModelScope: CoroutineScope
         private lateinit var initializer: MadrugadaStateFlowDSL<S>.() -> Unit
-        private lateinit var state: MadrugadaStateFlow<S>
+        private lateinit var state: MutableMadrugadaStateFlow<S>
 
         fun withViewModelScope(viewModelScope: CoroutineScope): Builder<S> {
             this.viewModelScope = viewModelScope
@@ -48,7 +48,7 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             return this
         }
 
-        fun withState(state: MadrugadaStateFlow<S>): Builder<S> {
+        fun withState(state: MutableMadrugadaStateFlow<S>): Builder<S> {
             this.state = state
             return this
         }
