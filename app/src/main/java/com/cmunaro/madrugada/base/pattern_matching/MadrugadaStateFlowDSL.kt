@@ -37,7 +37,7 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
         private lateinit var viewModelScope: CoroutineScope
         private lateinit var initializer: MadrugadaStateFlowDSL<S>.() -> Unit
         private lateinit var state: MutableMadrugadaStateFlow<S>
-        private var separatedDelivery: Boolean = true
+        private var simulatedMailBox: Boolean = true
 
         fun withViewModelScope(viewModelScope: CoroutineScope): Builder<S> {
             this.viewModelScope = viewModelScope
@@ -54,8 +54,8 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             return this
         }
 
-        fun withSeparatedDelivery(separatedDelivery: Boolean): Builder<S> {
-            this.separatedDelivery = separatedDelivery
+        fun withSimulatedMailBox(simulatedMailBox: Boolean): Builder<S> {
+            this.simulatedMailBox = simulatedMailBox
             return this
         }
 
@@ -63,8 +63,8 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             val instance = MadrugadaStateFlowDSLImpl<S>()
                 .apply(initializer)
 
-            if (separatedDelivery) runIndependentMatchers(instance)
-            else runDependedMatchers(instance)
+            if (simulatedMailBox) runDependedMatchers(instance)
+            else runIndependentMatchers(instance)
         }
 
         private fun runDependedMatchers(instance: MadrugadaStateFlowDSLImpl<S>) =

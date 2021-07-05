@@ -12,14 +12,14 @@ open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel()
     val state: MadrugadaStateFlow<S> = _state
 
     operator fun invoke(
-        separatedDelivery: Boolean = true,
+        simulateMailBox: Boolean = false,
         initializer: MadrugadaStateFlowDSL<S>.() -> Unit
     ) {
         MadrugadaStateFlowDSLImpl.Builder<S>()
             .withViewModelScope(viewModelScope)
             .withInitializer(initializer)
             .withState(_state)
-            .withSeparatedDelivery(separatedDelivery)
+            .withSimulatedMailBox(simulateMailBox)
             .build()
     }
 
