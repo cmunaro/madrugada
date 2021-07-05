@@ -63,17 +63,20 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             val instance = MadrugadaStateFlowDSLImpl<S>()
                 .apply(initializer)
 
-            if (separatedDelivery) {
-                instance.matchers.forEach { matcher: Matcher<S> ->
-                    viewModelScope.launch {
-                        state.runMatcherOnState(matcher)
-                    }
-                }
-            } else {
+            if (separatedDelivery) runIndependentMatchers(instance)
+            else runDependedMatchers(instance)
+        }
+
+        private fun runDependedMatchers(instance: MadrugadaStateFlowDSLImpl<S>) =
+            viewModelScope.launch {
+                state.runMatchersOnState(instance.matchers)
+            }
+
+        private fun runIndependentMatchers(instance: MadrugadaStateFlowDSLImpl<S>) =
+            instance.matchers.forEach { matcher: Matcher<S> ->
                 viewModelScope.launch {
-                    state.runMatchersOnState(instance.matchers)
+                    state.runMatcherOnState(matcher)
                 }
             }
-        }
     }
 }
