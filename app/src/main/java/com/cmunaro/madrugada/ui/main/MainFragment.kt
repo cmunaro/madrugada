@@ -17,7 +17,7 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel {
+        viewModel(separatedDelivery = false) {
             patternMatchPartialStateEvent(MainState::event) {
                 Log.d("MainState", "match fired event")
             }

@@ -37,6 +37,7 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
         private lateinit var viewModelScope: CoroutineScope
         private lateinit var initializer: MadrugadaStateFlowDSL<S>.() -> Unit
         private lateinit var state: MutableMadrugadaStateFlow<S>
+        private var separatedDelivery: Boolean = true
 
         fun withViewModelScope(viewModelScope: CoroutineScope): Builder<S> {
             this.viewModelScope = viewModelScope
@@ -53,14 +54,26 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             return this
         }
 
+        fun withSeparatedDelivery(separatedDelivery: Boolean): Builder<S> {
+            this.separatedDelivery = separatedDelivery
+            return this
+        }
+
         fun build() {
-            MadrugadaStateFlowDSLImpl<S>()
+            val instance = MadrugadaStateFlowDSLImpl<S>()
                 .apply(initializer)
-                .matchers.forEach { matcher: Matcher<S> ->
+
+            if (separatedDelivery) {
+                instance.matchers.forEach { matcher: Matcher<S> ->
                     viewModelScope.launch {
                         state.runMatcherOnState(matcher)
                     }
                 }
+            } else {
+                viewModelScope.launch {
+                    state.runMatchersOnState(instance.matchers)
+                }
+            }
         }
     }
 }
