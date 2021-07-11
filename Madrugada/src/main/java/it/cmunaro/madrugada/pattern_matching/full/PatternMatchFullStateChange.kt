@@ -1,8 +1,8 @@
-package com.cmunaro.madrugada.base.pattern_matching.full
+package it.cmunaro.madrugada.pattern_matching.full
 
-import com.cmunaro.madrugada.base.MadrugadaState
-import com.cmunaro.madrugada.base.pattern_matching.Action1
-import com.cmunaro.madrugada.base.pattern_matching.Matcher
+import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.pattern_matching.Action1
+import it.cmunaro.madrugada.pattern_matching.Matcher
 import kotlin.reflect.KProperty1
 
 class PatternMatchFullStateChange<S : MadrugadaState>(

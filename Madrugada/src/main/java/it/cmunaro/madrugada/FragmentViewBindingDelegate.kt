@@ -1,11 +1,17 @@
-package com.cmunaro.madrugada.base
+package it.cmunaro.madrugada
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.cmunaro.madrugada.BR
+import androidx.lifecycle.ViewModel
 import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.full.starProjectedType
+import kotlin.reflect.jvm.isAccessible
 
 class FragmentViewBindingDelegate<T : ViewDataBinding>(
     bindingClass: Class<T>,
@@ -30,9 +36,14 @@ class FragmentViewBindingDelegate<T : ViewDataBinding>(
 
     private fun injectViewModel(viewModel: MadrugadaViewModel<*>, binding: T?) {
         binding ?: return
-        val setVariableMethod = binding::class.java
-            .methods
-            .firstOrNull { it.name == "setVariable" }?: return
-        setVariableMethod(binding, BR.viewModel, viewModel)
+        val viewModelProperty: KProperty1<out T, *>? =
+            (binding::class.memberProperties as? ArrayList<KProperty1<out T, *>>?)
+                ?.firstOrNull { property ->
+                    property.returnType.isSubtypeOf(ViewModel::class.starProjectedType)
+                }
+        val viewModelSetter = (viewModelProperty as? KMutableProperty<*>)?.setter
+        viewModelSetter?.isAccessible = true
+        viewModelSetter?.call(binding, viewModel)
+        viewModelSetter?.isAccessible = false
     }
 }

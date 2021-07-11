@@ -1,11 +1,11 @@
-package com.cmunaro.madrugada.base
+package it.cmunaro.madrugada
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlow
-import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlowDSL
-import com.cmunaro.madrugada.base.pattern_matching.MadrugadaStateFlowDSLImpl
-import com.cmunaro.madrugada.base.pattern_matching.MutableMadrugadaStateFlow
+import it.cmunaro.madrugada.pattern_matching.MadrugadaStateFlow
+import it.cmunaro.madrugada.pattern_matching.MadrugadaStateFlowDSL
+import it.cmunaro.madrugada.pattern_matching.MadrugadaStateFlowDSLImpl
+import it.cmunaro.madrugada.pattern_matching.MutableMadrugadaStateFlow
 
 open class MadrugadaViewModel<S : MadrugadaState>(initialState: S) : ViewModel() {
     private val _state: MutableMadrugadaStateFlow<S> = MutableMadrugadaStateFlow.init(initialState)

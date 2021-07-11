@@ -1,4 +1,4 @@
-package com.cmunaro.madrugada.base.pattern_matching
+package it.cmunaro.madrugada.pattern_matching
 
 interface Action {
     fun invoke(changedValues: List<Any?>)

@@ -1,10 +1,11 @@
-package com.cmunaro.madrugada.base.pattern_matching.partial.comsuming
+package it.cmunaro.madrugada.pattern_matching.partial.comsuming
 
-import com.cmunaro.madrugada.base.MadrugadaState
-import com.cmunaro.madrugada.base.pattern_matching.BaseMadrugadaStateFlow
+import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.pattern_matching.BaseMadrugadaStateFlow
 import kotlin.reflect.KProperty1
 
-interface PatternMatchPartialStateConsumingInterface<S : MadrugadaState> : BaseMadrugadaStateFlow<S> {
+interface PatternMatchPartialStateConsumingInterface<S : MadrugadaState> :
+    BaseMadrugadaStateFlow<S> {
     fun <T> patternMatchPartialStateEvent(property: KProperty1<S, T>, action: (T) -> Unit)
 
     fun <T1, T2> patternMatchPartialStateEvent(

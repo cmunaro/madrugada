@@ -1,7 +1,7 @@
-package com.cmunaro.madrugada.base.pattern_matching.partial
+package it.cmunaro.madrugada.pattern_matching.partial
 
-import com.cmunaro.madrugada.base.MadrugadaState
-import com.cmunaro.madrugada.base.pattern_matching.BaseMadrugadaStateFlow
+import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.pattern_matching.BaseMadrugadaStateFlow
 import kotlin.reflect.KProperty1
 
 interface PatternMatchPartialStateChangeInterface<S : MadrugadaState> : BaseMadrugadaStateFlow<S> {

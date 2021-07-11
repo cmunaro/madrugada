@@ -1,12 +1,12 @@
-package com.cmunaro.madrugada.base.pattern_matching
+package it.cmunaro.madrugada.pattern_matching
 
-import com.cmunaro.madrugada.base.MadrugadaState
-import com.cmunaro.madrugada.base.pattern_matching.full.PatternMatchFullStateChange
-import com.cmunaro.madrugada.base.pattern_matching.full.PatternMatchFullStateChangeInterface
-import com.cmunaro.madrugada.base.pattern_matching.partial.PatternMatchPartialStateChange
-import com.cmunaro.madrugada.base.pattern_matching.partial.PatternMatchPartialStateChangeInterface
-import com.cmunaro.madrugada.base.pattern_matching.partial.comsuming.PatternMatchPartialStateConsuming
-import com.cmunaro.madrugada.base.pattern_matching.partial.comsuming.PatternMatchPartialStateConsumingInterface
+import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.pattern_matching.full.PatternMatchFullStateChange
+import it.cmunaro.madrugada.pattern_matching.full.PatternMatchFullStateChangeInterface
+import it.cmunaro.madrugada.pattern_matching.partial.PatternMatchPartialStateChange
+import it.cmunaro.madrugada.pattern_matching.partial.PatternMatchPartialStateChangeInterface
+import it.cmunaro.madrugada.pattern_matching.partial.comsuming.PatternMatchPartialStateConsuming
+import it.cmunaro.madrugada.pattern_matching.partial.comsuming.PatternMatchPartialStateConsumingInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.reflect.KProperty1

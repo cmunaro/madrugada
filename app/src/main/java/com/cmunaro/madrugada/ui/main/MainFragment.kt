@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cmunaro.madrugada.R
-import com.cmunaro.madrugada.base.MadrugadaFragment
+import it.cmunaro.madrugada.MadrugadaFragment
 import com.cmunaro.madrugada.databinding.MainFragmentBinding
 import kotlinx.coroutines.flow.collect
 

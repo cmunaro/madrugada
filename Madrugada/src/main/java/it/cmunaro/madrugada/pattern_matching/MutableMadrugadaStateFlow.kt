@@ -1,6 +1,6 @@
-package com.cmunaro.madrugada.base.pattern_matching
+package it.cmunaro.madrugada.pattern_matching
 
-import com.cmunaro.madrugada.base.MadrugadaState
+import it.cmunaro.madrugada.MadrugadaState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect

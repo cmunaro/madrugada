@@ -1,4 +1,4 @@
-package com.cmunaro.madrugada.base
+package it.cmunaro.madrugada
 
 import androidx.fragment.app.Fragment
 import org.koin.core.context.GlobalContext

@@ -2,8 +2,8 @@ package com.cmunaro.madrugada.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.cmunaro.madrugada.base.MadrugadaState
-import com.cmunaro.madrugada.base.MadrugadaViewModel
+import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.MadrugadaViewModel
 import kotlinx.coroutines.flow.map
 import java.util.*
 import kotlin.random.Random

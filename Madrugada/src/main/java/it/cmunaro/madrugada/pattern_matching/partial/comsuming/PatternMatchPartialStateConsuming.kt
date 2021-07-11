@@ -1,10 +1,10 @@
-package com.cmunaro.madrugada.base.pattern_matching.partial.comsuming
+package it.cmunaro.madrugada.pattern_matching.partial.comsuming
 
-import com.cmunaro.madrugada.base.MadrugadaState
-import com.cmunaro.madrugada.base.pattern_matching.Action1
-import com.cmunaro.madrugada.base.pattern_matching.Action2
-import com.cmunaro.madrugada.base.pattern_matching.Action3
-import com.cmunaro.madrugada.base.pattern_matching.Matcher
+import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.pattern_matching.Action1
+import it.cmunaro.madrugada.pattern_matching.Action2
+import it.cmunaro.madrugada.pattern_matching.Action3
+import it.cmunaro.madrugada.pattern_matching.Matcher
 import kotlin.reflect.KProperty1
 
 class PatternMatchPartialStateConsuming<S : MadrugadaState>(

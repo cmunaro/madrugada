@@ -1,4 +1,4 @@
-package com.cmunaro.madrugada.base
+package it.cmunaro.madrugada
 
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
