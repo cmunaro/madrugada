@@ -46,7 +46,7 @@ class MutableMadrugadaStateFlow<S : MadrugadaState> private constructor(
         }
     }
 
-    suspend fun runMatchersOnState(matchers: java.util.ArrayList<Matcher<S>>) {
+    suspend fun runMatchersOnState(matchers: ArrayList<Matcher<S>>) {
         stateFlow.collect { newState ->
             val matchedMatcher = matchers.firstOrNull { matcher ->
                 patternMatchChange(matcher, newState)

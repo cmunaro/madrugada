@@ -1,6 +1,8 @@
 package it.cmunaro.madrugada.pattern_matching
 
 import it.cmunaro.madrugada.MadrugadaState
+import it.cmunaro.madrugada.pattern_matching.PatternMatchingConfig.Parallel
+import it.cmunaro.madrugada.pattern_matching.PatternMatchingConfig.Sequential
 import it.cmunaro.madrugada.pattern_matching.full.PatternMatchFullStateChange
 import it.cmunaro.madrugada.pattern_matching.full.PatternMatchFullStateChangeInterface
 import it.cmunaro.madrugada.pattern_matching.partial.PatternMatchPartialStateChange
@@ -37,7 +39,7 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
         private lateinit var viewModelScope: CoroutineScope
         private lateinit var initializer: MadrugadaStateFlowDSL<S>.() -> Unit
         private lateinit var state: MutableMadrugadaStateFlow<S>
-        private var simulatedMailBox: Boolean = true
+        private lateinit var patternMatchingConfiguration: PatternMatchingConfig
 
         fun withViewModelScope(viewModelScope: CoroutineScope): Builder<S> {
             this.viewModelScope = viewModelScope
@@ -54,8 +56,8 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             return this
         }
 
-        fun withSimulatedMailBox(simulatedMailBox: Boolean): Builder<S> {
-            this.simulatedMailBox = simulatedMailBox
+        fun withPatternMatchingConfiguration(config: PatternMatchingConfig): Builder<S> {
+            this.patternMatchingConfiguration = config
             return this
         }
 
@@ -63,16 +65,18 @@ class MadrugadaStateFlowDSLImpl<S : MadrugadaState> private constructor() :
             val instance = MadrugadaStateFlowDSLImpl<S>()
                 .apply(initializer)
 
-            if (simulatedMailBox) runDependedMatchers(instance)
-            else runIndependentMatchers(instance)
+            when (patternMatchingConfiguration) {
+                Sequential -> runSequentialMatchers(instance)
+                Parallel -> runParallelMatcher(instance)
+            }
         }
 
-        private fun runDependedMatchers(instance: MadrugadaStateFlowDSLImpl<S>) =
+        private fun runSequentialMatchers(instance: MadrugadaStateFlowDSLImpl<S>) =
             viewModelScope.launch {
                 state.runMatchersOnState(instance.matchers)
             }
 
-        private fun runIndependentMatchers(instance: MadrugadaStateFlowDSLImpl<S>) =
+        private fun runParallelMatcher(instance: MadrugadaStateFlowDSLImpl<S>) =
             instance.matchers.forEach { matcher: Matcher<S> ->
                 viewModelScope.launch {
                     state.runMatcherOnState(matcher)

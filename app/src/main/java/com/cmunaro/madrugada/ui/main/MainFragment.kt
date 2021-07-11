@@ -6,8 +6,9 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cmunaro.madrugada.R
-import it.cmunaro.madrugada.MadrugadaFragment
 import com.cmunaro.madrugada.databinding.MainFragmentBinding
+import it.cmunaro.madrugada.MadrugadaFragment
+import it.cmunaro.madrugada.pattern_matching.PatternMatchingConfig.Sequential
 import kotlinx.coroutines.flow.collect
 
 class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
@@ -17,7 +18,7 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel(simulateMailBox = true) {
+        viewModel(patternMatchingConfiguration = Sequential) {
             patternMatchPartialStateEvent(MainState::event) {
                 Log.d("MainState", "match fired event")
             }

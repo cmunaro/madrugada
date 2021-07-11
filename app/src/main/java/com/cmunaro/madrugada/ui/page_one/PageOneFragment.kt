@@ -13,7 +13,7 @@ class PageOneFragment : Fragment(R.layout.page_one_fragment) {
     private val viewModel: PageOneViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding =  DataBindingUtil.bind(view)!!
+        binding = DataBindingUtil.bind(view)!!
 
         binding.button.setOnClickListener { viewModel.increment() }
 
