@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty1
 class PatternMatchFullStateChange<S : MadrugadaState>(
     override val matchers: ArrayList<Matcher<S>>
 ) : PatternMatchFullStateChangeInterface<S> {
-    override fun patternMatchFullStateChange(
+    override fun patternMatchFull(
         vararg properties: KProperty1<S, *>,
         action: (S) -> Unit
     ) {

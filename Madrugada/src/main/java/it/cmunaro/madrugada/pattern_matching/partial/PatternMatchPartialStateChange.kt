@@ -11,7 +11,7 @@ import kotlin.reflect.KProperty1
 class PatternMatchPartialStateChange<S : MadrugadaState>(
     override val matchers: ArrayList<Matcher<S>>
 ) : PatternMatchPartialStateChangeInterface<S> {
-    override fun <T> patternMatchPartialStateChange(
+    override fun <T> matchPartial(
         property: KProperty1<S, T>,
         action: (T) -> Unit
     ) {
@@ -24,7 +24,7 @@ class PatternMatchPartialStateChange<S : MadrugadaState>(
         )
     }
 
-    override fun <T1, T2> patternMatchPartialStateChange(
+    override fun <T1, T2> matchPartial(
         property1: KProperty1<S, T1>,
         property2: KProperty1<S, T2>,
         action: (T1, T2) -> Unit
@@ -38,7 +38,7 @@ class PatternMatchPartialStateChange<S : MadrugadaState>(
         )
     }
 
-    override fun <T1, T2, T3> patternMatchPartialStateChange(
+    override fun <T1, T2, T3> matchPartial(
         property1: KProperty1<S, T1>,
         property2: KProperty1<S, T2>,
         property3: KProperty1<S, T3>,

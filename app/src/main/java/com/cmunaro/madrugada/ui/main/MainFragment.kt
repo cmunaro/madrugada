@@ -19,19 +19,19 @@ class MainFragment : MadrugadaFragment(R.layout.main_fragment) {
         super.onCreate(savedInstanceState)
 
         viewModel(patternMatchingConfiguration = Sequential) {
-            patternMatchPartialStateEvent(MainState::event) {
+            matchEvent(MainState::event) {
                 Log.d("MainState", "match fired event")
             }
-            patternMatchPartialStateChange(MainState::counter) {
+            matchPartial(MainState::counter) {
                 Log.d("MainState", "match $it")
             }
-            patternMatchPartialStateChange(MainState::string) {
+            matchPartial(MainState::string) {
                 Log.d("MainState", "match $it")
             }
-            patternMatchFullStateChange(MainState::string) {
+            patternMatchFull(MainState::string) {
                 Log.d("MainState", "match whole state from string $it")
             }
-            patternMatchPartialStateChange(
+            matchPartial(
                 MainState::counter,
                 MainState::string
             ) { counter, string ->

@@ -5,5 +5,5 @@ import it.cmunaro.madrugada.pattern_matching.BaseMadrugadaStateFlow
 import kotlin.reflect.KProperty1
 
 interface PatternMatchFullStateChangeInterface<S : MadrugadaState> : BaseMadrugadaStateFlow<S> {
-    fun patternMatchFullStateChange(vararg properties: KProperty1<S, *>, action: (S) -> Unit)
+    fun patternMatchFull(vararg properties: KProperty1<S, *>, action: (S) -> Unit)
 }
